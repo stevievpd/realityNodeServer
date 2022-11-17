@@ -21,13 +21,11 @@ router.get("/get-all-meals", (req, res) => {
       conn.release();
       if (err) {
         console.log("Failed to get meals" + err);
-        res.sendStatus(500);
-        res.end();
+        res.status(500).send("Error occurred");
         return;
       }
       console.log("Fetched meals successfully");
-      res.send(rows);
-      res.end();
+      res.status(200).send(rows);
     });
   });
 });
@@ -50,7 +48,6 @@ router.post("/insert-meal", (req, res) => {
           status: "success",
           message: "inserted successfully",
         });
-        res.end();
       }
     );
   });

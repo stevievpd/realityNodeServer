@@ -12,6 +12,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 //Routes
 app.use("/meals", require("./api/meals"));
+app.use("/categories", require("./api/categories"));
 
 //Config
 const dbhost = process.env.DB_HOST; 

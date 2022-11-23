@@ -24,11 +24,26 @@ router.get("/get-all-categories", (req, res) => {
                 res.status(500).send("Error occurred");
                 return;
             }
-            console.log("Fetched meals successfully");
+            console.log("Fetched categories successfully");
             res.status(200).send(rows);
         });
     });
 });
 
+router.post("/add-new-category", (req, res) => {
+    pool.getConnection((err, conn) => {
+        conn.query("INSERT INTO categories (title) VALUES (?)", [req.body.title], (err, rows, fields) => {
+            if(err) {
+                return res.status(500).json({
+                    error: "Failed to query insert category",
+                });
+            }
+            res.status(200).json({
+                status: "success",
+                message: "Inserted categories successfully",
+            });
+        });
+    });
+});
 
 module.exports = router;

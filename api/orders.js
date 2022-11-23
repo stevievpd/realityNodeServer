@@ -23,26 +23,24 @@ router.post("/insert-order", (req, res) => {
                 return res.status(500).json({
                     error: "Failed to query insert order",
                 });
+            } else {
+                lastInsertedId = results.insertId;
+                for (var i in req.body.products) {
+                    conn.query("INSERT INTO order_product (order_id, product_id) VALUES (?, ?)", [lastInsertedId, req.body.products[i].id], (err, rows, fields) => {
+                        if (err) {
+                            console.log("Failed to insert into order_product");
+                            console.log(err);
+                            return res.status(500).json({
+                                error: "Failed to insert to order_product"
+                            })
+                        }
+                    });
+                }
             }
-            lastInsertedId = results.insertId;
-            for (var i in req.body.products) {
-                conn.query("INSERT INTO order_product (order_id, product_id) VALUES (?, ?)", [lastInsertedId, req.body.products[i].id], (err, rows, fields) => {
-                    if (err) {
-                        console.log("Failed to insert into order_product");
-                        console.log(err);
-                        return res.status(500).json({
-                            error: "Failed to insert to order_product"
-                        })
-                    }
-                    res.status(200).json({
-                        success: "success insert"
-                    })
-                });
-            }
-            conn.release();
+            res.status(200).json({
+                success: "Success"
+            })
         });
-        
-
     });
 });
 

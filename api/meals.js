@@ -15,35 +15,35 @@ const pool = mysql.createPool({
   database: dbname,
 });
 
-router.get("/get-all-meals", (req, res) => {
+router.get("/get-all-product", (req, res) => {
   pool.getConnection((err, conn) => {
-    conn.query("SELECT * FROM meals", (err, rows, fields) => {
+    conn.query("SELECT * FROM product", (err, rows, fields) => {
       conn.release();
       if (err) {
-        console.log("Failed to get meals" + err);
+        console.log("Failed to get product" + err);
         res.status(500).send("Error occurred");
         return;
       }
-      console.log("Fetched meals successfully");
+      console.log("Fetched product successfully");
       res.status(200).send(rows);
     });
   });
 });
 
-router.post("/insert-meal", (req, res) => {
+router.post("/insert-product", (req, res) => {
   pool.getConnection((err, conn) => {
     conn.query(
-      "INSERT INTO meals (title, description, price, imageUrl) VALUES (?, ?, ?, ?)",
+      "INSERT INTO product (title, description, price, imageUrl) VALUES (?, ?, ?, ?)",
       [req.body.title, req.body.description, req.body.price, req.body.imageUrl],
       (err, rows, fields) => {
         if (err) {
-          console.log("Failed to insert meal");
+          console.log("Failed to insert product");
           console.log(err);
           return res.status(500).json({
-            error: "Failed to insert meal",
+            error: "Failed to insert product",
           });
         }
-        console.log(`Inserted meal with title of ${rows.title}`);
+        console.log(`Inserted product with title of ${rows.title}`);
         res.status(200).json({
           status: "success",
           message: "inserted successfully",
@@ -53,10 +53,10 @@ router.post("/insert-meal", (req, res) => {
   });
 });
 
-router.patch("/edit-meal/:id", (req, res) => {
+router.patch("/edit-product/:id", (req, res) => {
   pool.getConnection((err, conn) => {
     conn.query(
-      "UPDATE meal SET title = ?, description = ?, price = ?, imageUrl = ? WHERE id = ?",
+      "UPDATE product SET title = ?, description = ?, price = ?, imageUrl = ? WHERE id = ?",
       [
         req.body.title,
         req.body.description,
@@ -66,10 +66,10 @@ router.patch("/edit-meal/:id", (req, res) => {
       ],
       (err, rows, fields) => {
         if (err) {
-          console.log("Failed to update meal");
+          console.log("Failed to update product");
           console.log(err);
           return res.status(500).json({
-            error: "Failed to update meal",
+            error: "Failed to update product",
           });
         }
         console.log(`Update meal with id of ${rows.id}`);
@@ -83,20 +83,20 @@ router.patch("/edit-meal/:id", (req, res) => {
   });
 });
 
-router.patch("/delete-meal/:id", (req, res) => {
+router.patch("/delete-product/:id", (req, res) => {
   pool.getConnection((err, conn) => {
     conn.query(
-      "UPDATE meal SET archived = 1 WHERE id = ?",
+      "UPDATE product SET archived = 1 WHERE id = ?",
       [req.params.id],
       (err, rows, fields) => {
         if (err) {
-          console.log("Failed to delete meal");
+          console.log("Failed to delete product");
           console.log(err);
           return res.status(500).json({
-            error: "Failed to delete meal",
+            error: "Failed to delete product",
           });
         }
-        console.log(`Deleted meal with id of ${rows.id}`);
+        console.log(`Deleted product with id of ${rows.id}`);
         res.status(200).json({
           status: "success",
           message: "deleted successfully",

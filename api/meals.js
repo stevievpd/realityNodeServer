@@ -17,11 +17,7 @@ const pool = mysql.createPool({
 
 router.get("/get-all-product", (req, res) => {
   pool.getConnection((err, conn) => {
-<<<<<<< HEAD
     conn.query("SELECT * FROM product", (err, rows, fields) => {
-=======
-    conn.query("SELECT * FROM products", (err, rows, fields) => {
->>>>>>> 4d924ee0c1897ca3c604309bbe756f2fc4343e45
       conn.release();
       if (err) {
         console.log("Failed to get product" + err);
@@ -37,11 +33,7 @@ router.get("/get-all-product", (req, res) => {
 router.post("/insert-product", (req, res) => {
   pool.getConnection((err, conn) => {
     conn.query(
-<<<<<<< HEAD
       "INSERT INTO product (title, description, price, imageUrl) VALUES (?, ?, ?, ?)",
-=======
-      "INSERT INTO products (title, description, price) VALUES (?, ?, ?)",
->>>>>>> 4d924ee0c1897ca3c604309bbe756f2fc4343e45
       [req.body.title, req.body.description, req.body.price, req.body.imageUrl],
       (err, rows, fields) => {
         if (err) {

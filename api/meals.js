@@ -17,7 +17,7 @@ const pool = mysql.createPool({
 
 router.get("/get-all-meals", (req, res) => {
   pool.getConnection((err, conn) => {
-    conn.query("SELECT * FROM meals", (err, rows, fields) => {
+    conn.query("SELECT * FROM products", (err, rows, fields) => {
       conn.release();
       if (err) {
         console.log("Failed to get meals" + err);
@@ -33,7 +33,7 @@ router.get("/get-all-meals", (req, res) => {
 router.post("/insert-meal", (req, res) => {
   pool.getConnection((err, conn) => {
     conn.query(
-      "INSERT INTO meals (title, description, price, imageUrl) VALUES (?, ?, ?, ?)",
+      "INSERT INTO products (title, description, price) VALUES (?, ?, ?)",
       [req.body.title, req.body.description, req.body.price, req.body.imageUrl],
       (err, rows, fields) => {
         if (err) {
@@ -47,8 +47,7 @@ router.post("/insert-meal", (req, res) => {
         res.status(200).json({
           status: "success",
           message: "inserted successfully",
-        });
-      }
+        });      }
     );
   });
 });

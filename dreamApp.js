@@ -4,7 +4,7 @@ const mysql = require("mysql");
 const bodyParser = require("body-parser");
 require("dotenv").config();
 
-
+//Middlewares
 const app = express();
 app.use(morgan("short"));
 app.use(bodyParser.json());
@@ -16,18 +16,17 @@ app.use("/categories", require("./api/categories"));
 app.use("/order", require("./api/orders"));
 
 //Config
-const dbhost = process.env.DB_HOST; 
+const dbhost = process.env.DB_HOST;
 const dbusername = process.env.DB_USER;
 const dbpass = process.env.DB_PASS;
 const dbname = process.env.DB_DATABASE;
 
 const pool = mysql.createPool({
-    host: dbhost,
-    user: dbusername,
-    password: dbpass,
-    database: dbname,
-  });
-
+  host: dbhost,
+  user: dbusername,
+  password: dbpass,
+  database: dbname,
+});
 
 const hostname = process.env.localhostAddress;
 const port = process.env.PORT || 3000;

@@ -1,5 +1,5 @@
 const express = require("express");
-const mysql = require("mysql");
+const mysql = require("mysql2");
 const router = express.Router();
 require("dotenv").config();
 
@@ -47,7 +47,8 @@ router.post("/insert-product", (req, res) => {
         res.status(200).json({
           status: "success",
           message: "inserted successfully",
-        });      }
+        });
+      }
     );
   });
 });
